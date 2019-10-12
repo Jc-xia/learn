@@ -1,4 +1,5 @@
-package hadoop.mapreduce.wordcount;
+package hadoop.mapreduce.flowsum;
+
 
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
@@ -12,23 +13,23 @@ import org.apache.hadoop.util.ToolRunner;
 
 import java.io.File;
 
-public class WcDriver extends Configured implements Tool {
-
-
+public class FlowSumRunner extends Configured implements Tool {
     @Override
-    public int run(String[] args) throws Exception {
-
-        Job job = new Job(getConf(),"Word Count");
+    public int run(String[] strings) throws Exception {
+        Job job = new Job(getConf(),"Flow Sum");
         //设置job类所在jar包
         job.setJarByClass(getClass());
 
         //指定map和reduce类
-        job.setMapperClass(WcMapper.class);
-        job.setReducerClass(WcReducer.class);
+        job.setMapperClass(FlowSumMapper.class);
+        job.setReducerClass(FlowSumReducer.class);
 
-        //指定reduce输出数据kv类型，该程序的map和reduce输出的数据类型一致，所以只需要写一个output的输出类型
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(LongWritable.class);
+        //map输出数据类型
+        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(FlowSumBean.class);
+        //reduce输出数据类型
+//        job.setOutputKeyClass(Text.class);
+//        job.setOutputValueClass(Text.class);
 
         //指定输入输出文件
         FileInputFormat.addInputPath(job,new Path("C:\\Users\\xjc\\Desktop\\test.sql"));
@@ -38,14 +39,16 @@ public class WcDriver extends Configured implements Tool {
     }
 
     public static void main(String[] args) throws Exception {
+
         File file = new File("C:\\Users\\xjc\\Desktop\\wc_result") ;
         File[] files = file.listFiles();
         for (File f : files) {
-               f.delete();
-         }
+            f.delete();
+        }
         file.delete();
 
-        int exitcode = ToolRunner.run(new WcDriver(),args);
+        int exitcode = ToolRunner.run(new FlowSumRunner(),args);
         System.exit(exitcode);
     }
+
 }
