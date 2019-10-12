@@ -10,6 +10,8 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
+import java.io.File;
+
 public class WcDriver extends Configured implements Tool {
 
 
@@ -24,7 +26,7 @@ public class WcDriver extends Configured implements Tool {
         job.setMapperClass(WcMapper.class);
         job.setReducerClass(WcReducer.class);
 
-        //指定reduce输出数据kv类型
+        //指定reduce输出数据kv类型，该程序的map和reduce输出的数据类型一致，所以只需要写一个output的输出类型
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(LongWritable.class);
 
@@ -36,6 +38,13 @@ public class WcDriver extends Configured implements Tool {
     }
 
     public static void main(String[] args) throws Exception {
+        File file = new File("C:\\Users\\xjc\\Desktop\\wc_result") ;
+        File[] files = file.listFiles();
+        for (File f : files) {
+               f.delete();
+         }
+        file.delete();
+
         int exitcode = ToolRunner.run(new WcDriver(),args);
         System.exit(exitcode);
     }

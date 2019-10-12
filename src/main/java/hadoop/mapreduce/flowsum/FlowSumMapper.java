@@ -17,9 +17,16 @@ public class FlowSumMapper extends Mapper<LongWritable, Text,Text,FlowSumBean> {
         String[] lines = line.split("\t");
 
         String phone = lines[0];
-        long u_flow = Long.getLong(lines[1]);
-        long d_flow = Long.getLong(lines[2]);
+        /*
+        这里的getlong方法只能返回代表系统属性的字符串的long值，
+        如sun.arch.data.modelsun.arch.data.model包名，等
+         long u_flow = Long.getLong(lines[1]);
+         long d_flow = Long.getLong(lines[2]);
+         */
+        long u_flow = Long.parseLong(lines[1]);
+        long d_flow = Long.parseLong(lines[2]);
 
         context.write(new Text(phone),new FlowSumBean(u_flow,d_flow));
+
     }
 }
