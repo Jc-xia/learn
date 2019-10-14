@@ -1,11 +1,12 @@
-package hadoop.mapreduce.FlowSort;
+package hadoop.mapreduce.flowsum;
 
-import hadoop.mapreduce.flowsum.FlowSumBean;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.NullWritable;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
@@ -14,6 +15,27 @@ import java.io.IOException;
 
 public class FlowSortRunner {
 
+    public   static  class FlowSortMapper extends Mapper<LongWritable, Text, FlowSumBean,Text> {
+        @Override
+        protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+            String line = value.toString();
+            String[] lines = line.split("\t");
+            String phone = lines[0];
+            long u_flow = Long.parseLong(lines[1]);
+            long d_flow = Long.parseLong(lines[2]);
+            context.write(new FlowSumBean(u_flow,d_flow),new Text(phone));
+        }
+    }
+
+
+    public class FlowSortReducer extends Reducer<FlowSumBean, Text,Text,FlowSumBean> {
+
+        @Override
+        protected void reduce(FlowSumBean key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+
+            context.write(values.iterator().next(),key);
+        }
+    }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
@@ -44,8 +66,10 @@ public class FlowSortRunner {
 
         File file = new File("C:\\Users\\xjc\\Desktop\\wc_result2") ;
         File[] files = file.listFiles();
-        for (File f : files) {
-            f.delete();
+        if(files.length > 0){
+            for (File f : files) {
+                f.delete();
+            }
         }
         file.delete();
 

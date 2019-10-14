@@ -12,7 +12,7 @@ import org.apache.hadoop.util.ToolRunner;
 
 import java.io.File;
 
-public class WcDriver extends Configured implements Tool {
+public class WcRunnerStandard extends Configured implements Tool {
 
 
     @Override
@@ -40,12 +40,14 @@ public class WcDriver extends Configured implements Tool {
     public static void main(String[] args) throws Exception {
         File file = new File("C:\\Users\\xjc\\Desktop\\wc_result") ;
         File[] files = file.listFiles();
-        for (File f : files) {
-               f.delete();
-         }
+        if(files.length > 0){
+            for (File f : files) {
+                f.delete();
+            }
+        }
         file.delete();
 
-        int exitcode = ToolRunner.run(new WcDriver(),args);
+        int exitcode = ToolRunner.run(new WcRunnerStandard(),args);
         System.exit(exitcode);
     }
 }

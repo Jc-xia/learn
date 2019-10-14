@@ -24,12 +24,18 @@ public class FlowSumRunner extends Configured implements Tool {
         job.setMapperClass(FlowSumMapper.class);
         job.setReducerClass(FlowSumReducer.class);
 
-        //map输出数据类型
-        job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(FlowSumBean.class);
+//        //map输出数据类型
+//        job.setMapOutputKeyClass(Text.class);
+//        job.setMapOutputValueClass(FlowSumBean.class);
         //reduce输出数据类型
-//        job.setOutputKeyClass(Text.class);
-//        job.setOutputValueClass(Text.class);
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(FlowSumBean.class);
+
+        //指定partitoner
+        job.setPartitionerClass(FlowSumPartitioner.class);
+
+        //指定reducer个数
+//        job.setNumReduceTasks(6);
 
         //指定输入输出文件
         FileInputFormat.addInputPath(job,new Path("C:\\Users\\xjc\\Desktop\\test.sql"));
@@ -39,11 +45,12 @@ public class FlowSumRunner extends Configured implements Tool {
     }
 
     public static void main(String[] args) throws Exception {
-
         File file = new File("C:\\Users\\xjc\\Desktop\\wc_result") ;
         File[] files = file.listFiles();
-        for (File f : files) {
-            f.delete();
+        if(files.length > 0){
+            for (File f : files) {
+                f.delete();
+            }
         }
         file.delete();
 
