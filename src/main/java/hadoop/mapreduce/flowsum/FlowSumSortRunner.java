@@ -13,9 +13,9 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import java.io.File;
 import java.io.IOException;
 
-public class FlowSortRunner {
+public class FlowSumSortRunner {
 
-    public   static  class FlowSortMapper extends Mapper<LongWritable, Text, FlowSumBean,Text> {
+    public  static  class FlowSortMapper extends Mapper<LongWritable, Text, FlowSumBean,Text> {
         @Override
         protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
             String line = value.toString();
@@ -28,7 +28,7 @@ public class FlowSortRunner {
     }
 
 
-    public class FlowSortReducer extends Reducer<FlowSumBean, Text,Text,FlowSumBean> {
+    public static class FlowSortReducer extends Reducer<FlowSumBean, Text,Text,FlowSumBean> {
 
         @Override
         protected void reduce(FlowSumBean key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
@@ -45,7 +45,7 @@ public class FlowSortRunner {
 //        Job job = new Job();
 
         //设置job类所在jar包
-        job.setJarByClass(FlowSortRunner.class);
+        job.setJarByClass(FlowSumSortRunner.class);
 
         //指定map和reduce类
         job.setMapperClass(FlowSortMapper.class);

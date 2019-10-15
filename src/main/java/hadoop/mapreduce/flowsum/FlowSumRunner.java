@@ -35,7 +35,7 @@ public class FlowSumRunner extends Configured implements Tool {
         job.setPartitionerClass(FlowSumPartitioner.class);
 
         //指定reducer个数
-//        job.setNumReduceTasks(6);
+        job.setNumReduceTasks(6);
 
         //指定输入输出文件
         FileInputFormat.addInputPath(job,new Path("C:\\Users\\xjc\\Desktop\\test.sql"));
