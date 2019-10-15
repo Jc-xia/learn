@@ -46,13 +46,15 @@ public class FlowSumRunner extends Configured implements Tool {
 
     public static void main(String[] args) throws Exception {
         File file = new File("C:\\Users\\xjc\\Desktop\\wc_result") ;
-        File[] files = file.listFiles();
-        if(files.length > 0){
-            for (File f : files) {
-                f.delete();
+        if(file.exists()) {
+            File[] files = file.listFiles();
+            if (files.length > 0) {
+                for (File f : files) {
+                    f.delete();
+                }
             }
+            file.delete();
         }
-        file.delete();
 
         int exitcode = ToolRunner.run(new FlowSumRunner(),args);
         System.exit(exitcode);
