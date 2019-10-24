@@ -1,9 +1,12 @@
-package hadoop;
+package hadoop.mapreduce;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.compress.CompressionCodec;
 import org.apache.hadoop.util.ReflectionUtils;
 
+/**
+ * 设置压缩文件的格式
+ */
 public class StreamCompressor {
     public static void main(String[] args) throws ClassNotFoundException {
         String codeClassname =null;
