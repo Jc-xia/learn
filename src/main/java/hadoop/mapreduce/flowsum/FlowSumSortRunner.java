@@ -65,13 +65,15 @@ public class FlowSumSortRunner {
         //C:\Users\xjc\Desktop\
 
         File file = new File("C:\\Users\\xjc\\Desktop\\wc_result2") ;
-        File[] files = file.listFiles();
-        if(files.length > 0){
-            for (File f : files) {
-                f.delete();
+        if(file.exists()) {
+            File[] files = file.listFiles();
+            if (files.length > 0) {
+                for (File f : files) {
+                    f.delete();
+                }
             }
+            file.delete();
         }
-        file.delete();
 
         job.waitForCompletion(true);
     }
