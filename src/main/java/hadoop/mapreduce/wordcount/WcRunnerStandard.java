@@ -31,8 +31,8 @@ public class WcRunnerStandard extends Configured implements Tool {
         job.setOutputValueClass(LongWritable.class);
 
         //指定输入输出文件
-        FileInputFormat.addInputPath(job,new Path("C:\\Users\\xjc\\Desktop\\test.sql"));
-        FileOutputFormat.setOutputPath(job ,new Path("C:\\Users\\xjc\\Desktop\\wc_result"));
+        FileInputFormat.addInputPath(job,new Path("/test.sql"));
+        FileOutputFormat.setOutputPath(job ,new Path("/output2"));
 
         return job.waitForCompletion(true)?0:1;
     }

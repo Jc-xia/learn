@@ -25,7 +25,7 @@ public class HbaseUtils {
 
         connection = ConnectionFactory.createConnection(conf);
         admin = connection.getAdmin();
-        tname = TableName.valueOf("Hbase-test");
+        tname = TableName.valueOf("observations");
     }
 
     /*
@@ -89,6 +89,7 @@ public class HbaseUtils {
      */
     @Test
     public void hbaseGet() throws IOException {
+
         Table table = connection.getTable(tname);
         Get get = new Get(Bytes.toBytes("row1"));
         Result result = table.get(get);
@@ -103,6 +104,7 @@ public class HbaseUtils {
     public void hbaseScan() throws IOException {
         Table table = connection.getTable(tname);
         Scan scan = new Scan();
+        scan.setLimit(10);
         ResultScanner result = table.getScanner(scan);
         for (Result r :result) {
             System.out.println(r);
