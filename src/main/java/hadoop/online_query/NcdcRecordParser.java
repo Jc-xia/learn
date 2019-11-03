@@ -26,7 +26,6 @@ public class NcdcRecordParser {
         try {
             observationDate = sdf.parse(str);
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

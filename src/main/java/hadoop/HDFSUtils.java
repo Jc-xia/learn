@@ -25,6 +25,10 @@ public class HDFSUtils {
         conf.set("dfs.support.append","true");
         conf.set("dfs.client.block.write.replace-datanode-on-failure.policy","NEVER");
         conf.set("dfs.client.block.write.replace-datanode-on-failure.enable","true");
+
+        //这里的get方法可以指定用户，不然会报错没有写入权限，
+        // 也可以在运行的虚拟机中设置参数指定用户：
+        //-DHADOOP_USER_NAME=root
         fs = FileSystem.get(URI.create(uri), conf, "root");
     }
 
