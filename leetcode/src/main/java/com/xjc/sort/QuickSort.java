@@ -1,4 +1,4 @@
-package leetcode;
+package com.xjc.sort;
 
 import java.util.Arrays;
 

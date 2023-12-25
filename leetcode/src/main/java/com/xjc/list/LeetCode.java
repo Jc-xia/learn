@@ -1,4 +1,4 @@
-package leetcode;
+package com.xjc.list;
 
 import java.util.Arrays;
 
