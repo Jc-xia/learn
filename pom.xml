@@ -13,6 +13,8 @@
         <module>hadoop</module>
         <module>nio</module>
         <module>leetcode</module>
+        <module>DesignPatterns</module>
+        <module>designPatterns</module>
     </modules>
 
     <dependencies>
