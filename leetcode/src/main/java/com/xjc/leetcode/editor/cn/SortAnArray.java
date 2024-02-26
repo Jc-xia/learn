@@ -1,8 +1,5 @@
 package com.xjc.leetcode.editor.cn;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 排序数组
  *
@@ -12,48 +9,52 @@ public class SortAnArray {
     public static void main(String[] args) {
         // 题解
         Solution solution = new SortAnArray().new Solution();
-        solution.sortArray(new int[]{5, 2, 3, 1});
+        solution.sortArray(new int[]{3, 2, 3, 1, 2, 4, 5, 5, 6});
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int[] sortArray(int[] nums) {
-            List<Integer> list = mergeSort(nums, 0, nums.length - 1);
-
-            return list.stream().mapToInt(Integer::valueOf).toArray();
+            quickSort(nums, 0, nums.length - 1);
+            return nums;
         }
 
-        public List<Integer> mergeSort(int[] nums, int begin, int end) {
-            List<Integer> res = new ArrayList<>();
-            if (begin > end) {
-                return res;
-            } else if (begin == end) {
-                res.add(nums[begin]);
-                return res;
+        public void quickSort(int[] nums, int begin, int end) {
+            if (begin >= end) {
+                return;
             }
-            int mid = (begin + end) / 2;
-            List<Integer> left = mergeSort(nums, begin, mid);
-            List<Integer> right = mergeSort(nums, mid + 1, end);
-            int i = 0, j = 0;
+            int base = partition(nums, begin, end);
+            quickSort(nums, begin, base - 1);
+            quickSort(nums, base + 1, end);
 
-            while (i < left.size() && j < right.size()) {
-                if (left.get(i) <= right.get(j)) {
-                    res.add(left.get(i));
+        }
+
+        public int partition(int[] nums, int begin, int end) {
+            // 取末尾元素为基准值
+            // 改为取随机值后，随机取下标，交换到末尾，其他不变
+            int base = (int) (Math.random() * (end - begin) + begin);
+            swap(nums, end, base);
+            int baseValue = nums[end];
+            int i = begin, j = end;
+            while (i < j) {
+                while (nums[i] <= baseValue && i < j) {
                     i++;
-                } else {
-                    res.add(right.get(j));
-                    j++;
+                }
+                while (nums[j] >= baseValue && i < j) {
+                    j--;
+                }
+                if (nums[i] > nums[j]) {
+                    swap(nums, i, j);
                 }
             }
-            while (i < left.size()) {
-                res.add(left.get(i));
-                i++;
-            }
-            while (j < right.size()) {
-                res.add(right.get(j));
-                j++;
-            }
-            return res;
+            swap(nums, i, end);
+            return i;
+        }
+
+        public void swap(int[] a, int i, int j) {
+            int tmp = a[i];
+            a[i] = a[j];
+            a[j] = tmp;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
