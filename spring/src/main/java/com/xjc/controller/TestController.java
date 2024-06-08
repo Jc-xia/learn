@@ -1,20 +1,24 @@
 package com.xjc.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
+import org.apache.commons.io.FileUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
  * @author JC
  * @create 2024/3/27
  */
-@Controller
+
+@RestController
 @Slf4j
 public class TestController {
 
@@ -33,5 +37,11 @@ public class TestController {
             read = inputStream.read(bytes);
         }
         outputStream.flush();
+    }
+
+    @GetMapping("/httptest")
+    public String httptest(@RequestParam(required = false, name = "who") String who) throws IOException {
+        File newFile = new File("C:\\Users\\78480\\Desktop\\testfile.txt");
+        return FileUtils.readFileToString(newFile, "UTF-8");
     }
 }
